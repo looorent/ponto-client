@@ -1,0 +1,140 @@
+plugins {
+    id "groovy"
+    id "idea"
+    id "java-library"
+    id "io.freefair.lombok" version "4.0.2"
+    id "maven-publish"
+}
+
+group "be.looorent"
+version "0.0.1"
+description "Client library for Ponto (https://myponto.com)"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(
+            "org.slf4j:slf4j-api:$slf4jVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    )
+
+    testCompile(
+            "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "org.spockframework:spock-core:$spockVersion",
+            "org.codehaus.groovy:groovy-all:$groovyVersion",
+    )
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$junitVersion"
+}
+
+test {
+    useJUnitPlatform()
+    environment "PONTO_TOKEN", "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4OTVhY2M1Ny1hMWYzLTQ0MzAtOGFkMy0xNjA2MjljMTExYzciLCJpc3MiOiJlMzUzZDZkNS0zNDA5LTRmMzMtYjUxZS03ZjMxZTE5OTQwMjYiLCJhdWQiOiJ1c2VyX2FjY291bnRfYWNjZXNzIiwic3ViIjoiNGUwYzdlYmQtNDM4Yi00MmYyLWJiNTUtZWQ1ZTE1MGNmNmQzIiwiZGF0YSI6eyJzYW5kYm94Ijp0cnVlfX0.IjW0ETF-GXka_1F--hFpxGgjgKYkldsqDo8XkCkvMrYACnABM8p-6V3PJaQx9xMHd4zQEfhJ7AmkgktCEjf22X5VEaaH9pJYUF5vAqemJ_h6ODfq7uviSVtKyJfwrnN5gNP9GWkY4NlU_kEd1WganY6gJP40OCD5fuUYD8Z07s8W5Zk9ru5nBxlkl5MoWVzDcvJ5HYsftSe9zen6AH2qAwSoQOpL5Ki6EB3aRPS0SS23tSYA-EsjBJB_oNbl4EXtq5VQKx3VDnklxHk5wI1k2tiaTuU2bSlblwmVt7E6dv6dKAQx4hlfg2op5s-XMRMsJvWEQ64GROAjWjUjmveMUA"
+}
+
+jar {
+    manifest {
+        attributes("Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Automatic-Module-Name": "ponto.client")
+    }
+}
+
+lombok.config["lombok.log.fieldName"] = "LOG"
+lombok.config["lombok.anyConstructor.addConstructorProperties"] = "true"
+lombok.config["lombok.nonNull.exceptionType"] = "IllegalArgumentException"
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+if (project.hasProperty("release")) {
+    def repoUser = hasProperty('ossrhUser') ? ossrhUser : System.getenv('ossrhUser')
+    def repoPassword = hasProperty('ossrhPassword') ? ossrhPassword : System.getenv('ossrhUser')
+
+    apply plugin: "signing"
+    apply plugin: "maven"
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = "sources"
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = "javadoc"
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    nexusStaging {
+        username = repoUser
+        password = repoPassword
+        packageGroup = "be.looorent"
+    }
+
+    signing {
+        sign configurations.archives
+    }
+
+    javadoc {
+        if(JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption("html5", true)
+        }
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: repoUser, password: repoPassword)
+                }
+
+                pom.project {
+                    name project.name
+                    description project.description
+                    packaging "jar"
+                    url "https://github.com/looorent/ponto-client"
+
+                    scm {
+                        connection "scm:git:https://github.com/looorent/ponto-client"
+                        developerConnection "scm:git:git@github.com:looorent/ponto-client.git"
+                        url "https://github.com/looorent/ponto-client"
+                    }
+
+                    licenses {
+                        license {
+                            name "The MIT License (MIT)"
+                            url "http://opensource.org/licenses/MIT"
+                            distribution "repo"
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = "looorent"
+                            name = "Lorent Lempereur"
+                            email = "lorent.lempereur.dev@gmail.com"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
