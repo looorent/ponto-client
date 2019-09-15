@@ -16,52 +16,52 @@ public class Transaction {
     private UUID id;
 
     /**
-     * Date representing the moment the transaction is considered effective
+     * @return Date representing the moment the transaction is considered effective
      */
     private LocalDateTime valueDate;
 
     /**
-     * Type of remittance information
+     * @return Type of remittance information
      */
     private RemittanceInformationType remittanceInformationType;
 
     /**
-     * Content of the remittance information (aka communication)
+     * @return Content of the remittance information (aka communication)
      */
     private String remittanceInformation;
 
     /**
-     * Date representing the moment the transaction has been recorded
+     * @return Date representing the moment the transaction has been recorded
      */
     private LocalDateTime executionDate;
 
     /**
-     * Description of the transaction
+     * @return Description of the transaction
      */
     private String description;
 
     /**
-     * Currency of the transaction
+     * @return Currency of the transaction
      */
     private Currency currency;
 
     /**
-     * Number representing the counterpart's account
+     * @return Number representing the counterpart's account
      */
     private String counterpartReference;
 
     /**
-     * Legal name of the counterpart
+     * @return Legal name of the counterpart
      */
     private String counterpartName;
 
     /**
-     * Amount of the transaction. Can be positive or negative
+     * @return Amount of the transaction. Can be positive or negative
      */
     private BigDecimal amount;
 
     /**
-     * Id of the account that this transaction belongs to
+     * @return Id of the account that this transaction belongs to
      */
     private UUID accountId;
 }

@@ -17,12 +17,12 @@ public class Configuration {
     @NonNull private final String url;
 
     /**
-     * Your Ponto API token.
+     * @return Your Ponto API token.
      */
     @NonNull private final Token token;
 
     /**
-     * When calling a client method, maximal duration (in milliseconds) before the HTTP client throws a TimeoutException
+     * @return When calling a client method, maximal duration (in milliseconds) before the HTTP client throws a TimeoutException
      */
     private final int timeoutInMillis;
 

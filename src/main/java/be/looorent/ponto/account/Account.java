@@ -20,52 +20,52 @@ public class Account {
     private UUID id;
 
     /**
-     * Type of account
+     * @return Type of account
      */
     private AccountType type;
 
     /**
-     * Type of financial institution reference (such as IBAN)
+     * @return Type of financial institution reference (such as IBAN)
      */
     private String referenceType;
 
     /**
-     * Financial institution's internal reference for this account
+     * @return Financial institution's internal reference for this account
      */
     private String reference;
 
     /**
-     * Description of the account
+     * @return Description of the account
      */
     private String description;
 
     /**
-     * Total funds currently in the account
+     * @return Total funds currently in the account
      */
     private BigDecimal currentBalance;
 
     /**
-     * Amount of account funds that can be accessed immediately
+     * @return Amount of account funds that can be accessed immediately
      */
     private BigDecimal availableBalance;
 
     /**
-     * Currency of the account
+     * @return Currency of the account
      */
     private Currency currency;
 
     /**
-     * Id of the financial institution that hosts this account
+     * @return Id of the financial institution that hosts this account
      */
     private UUID financialInstitutionId;
 
     /**
-     * When this account was last synchronized.
+     * @return When this account was last synchronized.
      */
     private LocalDateTime synchronizedAt;
 
     /**
-     * Details of the most recently completed (with success or error) synchronization of the account
+     * @return Details of the most recently completed (with success or error) synchronization of the account
      */
     private Synchronization latestSynchronization;
 }

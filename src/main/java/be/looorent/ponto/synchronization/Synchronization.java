@@ -18,38 +18,38 @@ public class Synchronization {
     private UUID id;
 
     /**
-     * Current status of the synchronization, which changes from pending to running to success or error
+     * @return Current status of the synchronization, which changes from pending to running to success or error
      */
     private SynchronizationStatus status;
 
     /**
-     * What is being synchronized. Account information such as balance is updated using accountDetails, while accountTransactions is used to synchronize the transactions.
+     * @return What is being synchronized. Account information such as balance is updated using accountDetails, while accountTransactions is used to synchronize the transactions.
      */
     private SynchronizationSubtype subtype;
 
     /**
-     * When this synchronization was created.
+     * @return When this synchronization was created.
      */
     private Instant createdAt;
 
     /**
-     * When this synchronization was last synchronized successfully.
+     * @return When this synchronization was last synchronized successfully.
      */
     private Instant updatedAt;
 
     /**
-     * Identifier of the resource to be synchronized
+     * @return Identifier of the resource to be synchronized
      */
     private UUID resourceId;
 
     /**
-     * Type of the resource to be synchronized.
+     * @return Type of the resource to be synchronized.
      */
     private ResourceType resourceType;
 
     // TODO use strong typing
     /**
-     * Details of any errors that have occurred during synchronization, due to invalid authorization or technical failure
+     * @return Details of any errors that have occurred during synchronization, due to invalid authorization or technical failure
      */
     private Collection<Object> errors;
 

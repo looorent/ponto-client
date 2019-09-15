@@ -284,7 +284,7 @@ class FinancialInstitutionHttpClientSpec extends Specification implements RestTr
         def response = client.find(id)
 
         then:
-        response.isEmpty()
+        !response.isPresent()
 
         where:
         unkwnownId                             | _

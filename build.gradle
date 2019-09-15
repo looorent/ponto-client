@@ -4,6 +4,7 @@ plugins {
     id "java-library"
     id "io.freefair.lombok" version "4.0.2"
     id "maven-publish"
+    id "io.codearte.nexus-staging" version "0.21.1"
 }
 
 group "be.looorent"
@@ -74,15 +75,15 @@ if (project.hasProperty("release")) {
         from javadoc.destinationDir
     }
 
-    artifacts {
-        archives sourcesJar
-        archives javadocJar
-    }
-
     nexusStaging {
         username = repoUser
         password = repoPassword
         packageGroup = "be.looorent"
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
     }
 
     signing {

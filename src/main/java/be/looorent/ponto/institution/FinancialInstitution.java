@@ -12,7 +12,7 @@ public class FinancialInstitution {
     private UUID id;
 
     /**
-     * Name of the financial institution
+     * @return Name of the financial institution
      */
     private String name;
 }

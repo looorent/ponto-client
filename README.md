@@ -108,6 +108,10 @@ while (response.hasAfter()) {
 
 # Development
 
+Environment of development:
+* AdoptOpenJDK 8
+* Gradle wrapper
+
 ## Technical choices
 
 * The fewest dependencies as possible. This means: no `HttpClient`, no `jsonapi` library, no `commons`,...
